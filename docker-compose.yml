@@ -8,6 +8,6 @@ services:
       - ./data:/var/lib/mysql
     ports:
       - "3340:3306"
-    enviroment:
+    environment:
       MYSQL_DATABASE: padron
       MYSQL_ROOT_PASSWORD: 123456
