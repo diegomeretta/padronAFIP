@@ -10,9 +10,9 @@ public class Mariadb {
 	}
 
 	static public Connection getConnection() {
-		String url = "jdbc:mariadb://192.168.16.11:3306/padron";
-		String username = "usuario";
-		String password = "contrasena";
+		String url = "jdbc:mariadb://padron_afip_db/padron";
+		String username = "root";
+		String password = "123456";
 
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
