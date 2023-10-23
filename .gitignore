@@ -3,6 +3,9 @@
 .project
 /.settings/
 
+# Mysql data
+/data/
+
 # Compiled class file
 *.class
 
