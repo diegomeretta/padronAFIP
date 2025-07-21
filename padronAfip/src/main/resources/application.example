@@ -2,7 +2,7 @@
 server.port=8080
 
 # Configuracion de base de datos
-spring.datasource.url=jdbc:mariadb://localhost:3306/padron
+spring.datasource.url=jdbc:mariadb://padron_afip_db:3306/padron
 spring.datasource.driverClassName=org.mariadb.jdbc.Driver
 spring.datasource.username=user
 spring.datasource.password=pass
