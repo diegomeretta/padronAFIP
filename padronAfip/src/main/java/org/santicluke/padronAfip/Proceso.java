@@ -29,11 +29,12 @@ public class Proceso {
 	@Autowired
 	ContribuyenteDAO contribuyenteDAO;
 	
+	@Autowired
+	ZipFileManager zipFileManager;
+	
 	public void correr() {
 		log.info("Comienzo ejecución del proceso");
 
-		ZipFileManager zipFileManager = new ZipFileManager();
-	
 		try {
 			Date fileLastModified = archivoAfipDAO.getFileLastModified();
 			if (!archivoAfipDAO.existeArchivo(fileLastModified)) {

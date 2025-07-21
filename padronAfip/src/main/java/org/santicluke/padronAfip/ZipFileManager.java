@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,14 +19,15 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.santicluke.padronAfip.model.ArchivoExtraido;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ZipFileManager {
 	
 	public ArchivoExtraido obtenerArchivoSituacionFiscalDesdeAFIPWeb(String afipFileUrl, Date fileLastModified) {
 
 		try {
             URI downloadedFileUri = downloadAfipZipFile(afipFileUrl, fileLastModified);
-        
             Path filePath = Paths.get(downloadedFileUri);
             System.out.println("filePath:" + filePath.toString());
             ArchivoExtraido extractedContent = extraerArchivoDeZipDesdeArchivo(filePath);
@@ -35,11 +37,13 @@ public class ZipFileManager {
             
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (URISyntaxException e) {
+        	e.printStackTrace();
         }
         return null;
 	}
 
-    public URI downloadAfipZipFile(String afipFileUrl, Date fileLastModified) throws MalformedURLException, IOException {
+    public URI downloadAfipZipFile(String afipFileUrl, Date fileLastModified) throws MalformedURLException, IOException, URISyntaxException {
         System.out.println("Downloading ZIP from: " + afipFileUrl);
         
         Path downloadDir = Paths.get("downloads");
@@ -48,7 +52,7 @@ public class ZipFileManager {
         String fileName = generateFileName(afipFileUrl, fileLastModified);
         Path filePath = downloadDir.resolve(fileName);
         
-        URL url = new URL(afipFileUrl);
+        URL url = new URI(afipFileUrl).toURL();
         try (InputStream inputStream = url.openStream()) {
             long bytesDownloaded = Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
             System.out.println("Download completed. File saved: " + filePath);
