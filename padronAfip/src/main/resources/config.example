@@ -1,0 +1,6 @@
+# config.properties
+database.url=jdbc:mariadb://localhost:3306/padron
+database.username=user
+database.password=pass
+app.name=ContribuyentesAfip
+app.version=1.0.0

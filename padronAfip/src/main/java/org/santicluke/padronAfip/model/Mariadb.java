@@ -1,8 +1,10 @@
-package org.santicluke.padronAfip;
+package org.santicluke.padronAfip.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import org.santicluke.padronAfip.ConfigManager;
 
 public class Mariadb {
 
@@ -10,9 +12,9 @@ public class Mariadb {
 	}
 
 	static public Connection getConnection() {
-		String url = "jdbc:mariadb://192.168.16.11:3306/padron";
-		String username = "usuario";
-		String password = "contrasena";
+		String url = ConfigManager.getProperty("database.url");
+		String username = ConfigManager.getProperty("database.username");
+		String password = ConfigManager.getProperty("database.password");
 
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
