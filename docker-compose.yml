@@ -1,0 +1,13 @@
+version: "3"
+services:
+  database:
+    image: mariadb:10.4
+    container_name: padron_afip_db
+    restart: unless-stopped
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - "3340:3306"
+    environment:
+      MYSQL_DATABASE: padron
+      MYSQL_ROOT_PASSWORD: 123456
