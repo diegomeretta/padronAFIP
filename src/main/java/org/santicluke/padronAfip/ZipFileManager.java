@@ -21,6 +21,9 @@ import java.util.zip.ZipInputStream;
 import org.santicluke.padronAfip.model.ArchivoExtraido;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class ZipFileManager {
 	
@@ -29,7 +32,7 @@ public class ZipFileManager {
 		try {
             URI downloadedFileUri = downloadAfipZipFile(afipFileUrl, fileLastModified);
             Path filePath = Paths.get(downloadedFileUri);
-            System.out.println("filePath:" + filePath.toString());
+            log.info("filePath:" + filePath.toString());
             ArchivoExtraido extractedContent = extraerArchivoDeZipDesdeArchivo(filePath);
             // Files.deleteIfExists(filePath);
             // System.out.println("Archivo temporal eliminado: " + filePath);
@@ -44,7 +47,7 @@ public class ZipFileManager {
 	}
 
     public URI downloadAfipZipFile(String afipFileUrl, Date fileLastModified) throws MalformedURLException, IOException, URISyntaxException {
-        System.out.println("Downloading ZIP from: " + afipFileUrl);
+        log.info("Downloading ZIP from: " + afipFileUrl);
         
         Path downloadDir = Paths.get("downloads");
         Files.createDirectories(downloadDir);
@@ -55,8 +58,7 @@ public class ZipFileManager {
         URL url = new URI(afipFileUrl).toURL();
         try (InputStream inputStream = url.openStream()) {
             long bytesDownloaded = Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("Download completed. File saved: " + filePath);
-            System.out.println("Total bytes downloaded: " + bytesDownloaded);
+            log.info("Total bytes downloaded: " + bytesDownloaded);
         }
         
         return filePath.toUri();

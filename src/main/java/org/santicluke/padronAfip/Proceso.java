@@ -37,7 +37,9 @@ public class Proceso {
 
 		try {
 			Date fileLastModified = archivoAfipDAO.getFileLastModified();
-			if (!archivoAfipDAO.existeArchivo(fileLastModified)) {
+			log.info("fileLastModified:" + fileLastModified);
+			
+			if (fileLastModified != null && !archivoAfipDAO.existeArchivo(fileLastModified)) {
 				log.info("Obteniendo archivo");
 				ArchivoExtraido archivo = zipFileManager.obtenerArchivoSituacionFiscalDesdeAFIPWeb(ArchivoAfipDAO.ARCHIVO_AFIP_URL, fileLastModified);
 				
@@ -60,6 +62,10 @@ public class Proceso {
 	}
 	
 	public LocalDate obtenerFechaDeArchivo(String nombreArchivo) {
+	    // Validar entrada
+	    if (nombreArchivo == null || nombreArchivo.trim().isEmpty()) {
+	        return null;
+	    }
 	    // Buscar patrón: .YYYYMMDD.tmp al final del nombre
 	    Pattern pattern = Pattern.compile("\\.(\\d{8})\\.tmp$");
 	    Matcher matcher = pattern.matcher(nombreArchivo);

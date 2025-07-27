@@ -5,7 +5,7 @@
 
 	<groupId>santicluke</groupId>
 	<artifactId>padronAfip</artifactId>
-	<version>20250717</version>
+	<version>20250727</version>
 	<packaging>jar</packaging>
 
 	<name>padronAfip</name>
