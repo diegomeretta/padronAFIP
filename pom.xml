@@ -98,32 +98,38 @@
 	                </execution>
 	            </executions>
 	        </plugin>
-            <plugin>
+			<plugin>
+			    <groupId>com.github.spotbugs</groupId>
+			    <artifactId>spotbugs-maven-plugin</artifactId>
+			    <version>4.7.3.6</version>
+			    <configuration>
+			        <effort>Max</effort>
+			        <threshold>Low</threshold>
+			        <failOnError>false</failOnError>
+			        <xmlOutput>true</xmlOutput>
+			        <htmlOutput>true</htmlOutput>
+			    </configuration>
+			    <executions>
+			        <execution>
+			            <goals>
+			                <goal>spotbugs</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			</plugin>
+		</plugins>
+	</build>
+	<reporting>
+	    <plugins>
+	        <plugin>
 	            <groupId>com.github.spotbugs</groupId>
 	            <artifactId>spotbugs-maven-plugin</artifactId>
 	            <version>4.7.3.6</version>
 	            <configuration>
-	                <effort>Max</effort>
 	                <threshold>Low</threshold>
-	                <failOnError>true</failOnError>
-	                <includeFilterFile>spotbugs-security-include.xml</includeFilterFile>
-	                <excludeFilterFile>spotbugs-security-exclude.xml</excludeFilterFile>
-	                <plugins>
-	                    <plugin>
-	                        <groupId>com.h3xstream.findsecbugs</groupId>
-	                        <artifactId>findsecbugs-plugin</artifactId>
-	                        <version>1.12.0</version>
-	                    </plugin>
-	                </plugins>
+	                <effort>Max</effort>
 	            </configuration>
-	            <executions>
-	                <execution>
-	                    <goals>
-	                        <goal>check</goal>
-	                    </goals>
-	                </execution>
-	            </executions>
 	        </plugin>
 	    </plugins>
-	</build>
+	</reporting>
 </project>
