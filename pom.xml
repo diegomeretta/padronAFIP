@@ -108,6 +108,8 @@
 			        <failOnError>false</failOnError>
 			        <xmlOutput>true</xmlOutput>
 			        <htmlOutput>true</htmlOutput>
+					<xmlOutputDirectory>target</xmlOutputDirectory>
+					<spotbugsXmlOutputFilename>spotbugsXml.xml</spotbugsXmlOutputFilename>
 			    </configuration>
 			    <executions>
 			        <execution>
