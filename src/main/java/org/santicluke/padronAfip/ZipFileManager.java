@@ -55,6 +55,11 @@ public class ZipFileManager {
         String fileName = generateFileName(afipFileUrl, fileLastModified);
         Path filePath = downloadDir.resolve(fileName);
         
+        if (Files.exists(filePath)) {
+            log.info("File already exists, skipping download: " + fileName);
+            return filePath.toUri();
+        }
+        
         URL url = new URI(afipFileUrl).toURL();
         try (InputStream inputStream = url.openStream()) {
             long bytesDownloaded = Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
