@@ -125,6 +125,7 @@ public class ZipFileManager {
             entrada = zip.getNextEntry();
         }
         zip.close();
+        fis.close();
         return null; // Si no se encuentra el archivo
     }
 	
