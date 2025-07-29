@@ -101,12 +101,14 @@ public class ZipFileManager {
         ZipInputStream zip = new ZipInputStream(fis);
     	log.debug("Procesando archivo zip");
     	ZipEntry entrada = zip.getNextEntry();
+    	byte[] result = null;
+    	String nombre = null;
         while (entrada != null) {
             log.debug("Entrada encontrada: " + entrada.getName());
 
             if (entrada.getName().contains("SELE-SAL-CONSTA")) {
                 log.debug("Extrayendo: " + entrada.getName());
-
+                nombre = entrada.getName();
                 ByteArrayOutputStream fos = new ByteArrayOutputStream();
                 byte[] buffer = new byte[4096];
 
@@ -114,11 +116,10 @@ public class ZipFileManager {
                     fos.write(buffer, 0, bytesRead);
                 }
 
-                byte[] result = fos.toByteArray();
+                result = fos.toByteArray();
                 fos.close();
 
                 log.debug("Archivo extraído, tamaño: " + result.length + " bytes");
-                return new ArchivoExtraido(result, entrada.getName());
             } else {
             	log.info("No se encontró ninguna entrada que contenga SELE-SAL-CONSTA");
             }
@@ -126,7 +127,7 @@ public class ZipFileManager {
         }
         zip.close();
         fis.close();
-        return null; // Si no se encuentra el archivo
+        return new ArchivoExtraido(result, nombre);
     }
 	
 }
