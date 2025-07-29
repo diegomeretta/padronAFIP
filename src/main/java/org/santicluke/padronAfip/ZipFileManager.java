@@ -32,10 +32,8 @@ public class ZipFileManager {
 		try {
             URI downloadedFileUri = downloadAfipZipFile(afipFileUrl, fileLastModified);
             Path filePath = Paths.get(downloadedFileUri);
-            log.info("filePath:" + filePath.toString());
+            log.debug("filePath:" + filePath.toString());
             ArchivoExtraido extractedContent = extraerArchivoDeZipDesdeArchivo(filePath);
-            // Files.deleteIfExists(filePath);
-            // System.out.println("Archivo temporal eliminado: " + filePath);
             return extractedContent;
             
         } catch (IOException e) {
@@ -63,7 +61,7 @@ public class ZipFileManager {
         URL url = new URI(afipFileUrl).toURL();
         try (InputStream inputStream = url.openStream()) {
             long bytesDownloaded = Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-            log.info("Total bytes downloaded: " + bytesDownloaded);
+            log.debug("Total bytes downloaded: " + bytesDownloaded);
         }
         
         return filePath.toUri();
@@ -83,31 +81,31 @@ public class ZipFileManager {
     }
 
     private ArchivoExtraido extraerArchivoDeZipDesdeArchivo(Path zipFilePath) throws IOException {
-        System.out.println("Extracting ZIP from file: " + zipFilePath);
+    	log.debug("Extracting ZIP from file: " + zipFilePath);
         long fileSize = Files.size(zipFilePath);
-        System.out.println("Tamaño del archivo: " + fileSize + " bytes");
+        log.debug("Tamaño del archivo: " + fileSize + " bytes");
         if (fileSize == 0) {
-            System.err.println("ERROR: El archivo está vacío");
+            log.error("ERROR: El archivo está vacío");
         }
-        System.out.println("Permisos de lectura: " + Files.isReadable(zipFilePath));
+        log.debug("Permisos de lectura: " + Files.isReadable(zipFilePath));
         
         FileInputStream fis = new FileInputStream(zipFilePath.toFile());
         byte[] header = new byte[4];
         int bytesRead = fis.read(header);
         if (bytesRead >= 2) {
             if (header[0] != 0x50 || header[1] != 0x4B) {
-                System.err.println("ERROR: No es un archivo ZIP válido (esperado: 0x504B)");
+                log.error("ERROR: No es un archivo ZIP válido (esperado: 0x504B)");
             }
         }
         
         ZipInputStream zip = new ZipInputStream(fis);
-    	System.out.println("Procesando archivo zip");
+    	log.debug("Procesando archivo zip");
     	ZipEntry entrada = zip.getNextEntry();
         while (entrada != null) {
-            System.out.println("Entrada encontrada: " + entrada.getName());
+            log.debug("Entrada encontrada: " + entrada.getName());
 
             if (entrada.getName().contains("SELE-SAL-CONSTA")) {
-                System.out.println("Extrayendo: " + entrada.getName());
+                log.debug("Extrayendo: " + entrada.getName());
 
                 ByteArrayOutputStream fos = new ByteArrayOutputStream();
                 byte[] buffer = new byte[4096];
@@ -119,10 +117,10 @@ public class ZipFileManager {
                 byte[] result = fos.toByteArray();
                 fos.close();
 
-                System.out.println("Archivo extraído, tamaño: " + result.length + " bytes");
+                log.debug("Archivo extraído, tamaño: " + result.length + " bytes");
                 return new ArchivoExtraido(result, entrada.getName());
             } else {
-            	System.out.println("No se encontró ninguna entrada que contenga SELE-SAL-CONSTA");
+            	log.info("No se encontró ninguna entrada que contenga SELE-SAL-CONSTA");
             }
             entrada = zip.getNextEntry();
         }

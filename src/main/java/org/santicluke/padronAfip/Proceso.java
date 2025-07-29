@@ -46,9 +46,8 @@ public class Proceso {
 				LocalDate fecha = obtenerFechaDeArchivo(archivo.getNombre());
 				log.info("LocalDate:" + fecha);
 				
-				// contribuyenteDAO.guardarMasivoEnBaseDeDatos(archivo.getContenido(), fecha);
-		        Date fechaDate = Date.from(fecha.atStartOfDay(ZoneId.of( "America/Buenos_Aires")).toInstant());
-		        contribuyenteDAO.guardarMasivoEnBaseDeDatos2(archivo.getContenido(), fechaDate);
+				Date fechaDate = Date.from(fecha.atStartOfDay(ZoneId.of( "America/Buenos_Aires")).toInstant());
+		        contribuyenteDAO.guardarMasivoEnBaseDeDatos(archivo.getContenido(), fechaDate);
 		        archivoAfipDAO.guardarFecha(fileLastModified, fechaDate);
 			} else {
 				log.info("El archivo ya existe");

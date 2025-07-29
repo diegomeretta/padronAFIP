@@ -22,11 +22,8 @@ public class ProcesoController {
 	@GetMapping("/comenzar")
 	public ResponseEntity<String> obtenerUsuario() {
 	    CompletableFuture.runAsync(() -> {
-	        System.out.println("Inicio importación - Thread: " + Thread.currentThread().getName());
             proceso.correr();
-	        System.out.println("Finalizo importación");
 	    });
-	    
 	    return ResponseEntity.ok("Proceso iniciado en background");
 	}
 	
